@@ -1,0 +1,38 @@
+# Testing puppet yea.
+# The default server
+#
+server {
+listen       <% if @ssl == true -%> 443 ssl<% else %><%= @port %><% end %>  <% if @title == "default" %> default_server <% end %>; 
+server_name  <%= @servername %>;
+
+    #charset koi8-r;
+
+    #access_log  logs/host.access.log  main;
+
+    # Load configuration files for the default server block.
+
+    location / {
+    root  <%= @docroot %>; #/var/www/;
+        index  index.html index.htm;
+    }
+
+    error_page  404              /404.html;
+    location = /404.html {
+        root   /usr/share/nginx/html;
+    }
+    <% if @ssl == true %>
+      ssl on;
+      ssl_certificate <%= @sslCert %>; 
+      ssl_certificate_key <%= @sslCertKey %>;
+   <% else %>
+     #no ssl
+    <% end %> 
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}
+
+

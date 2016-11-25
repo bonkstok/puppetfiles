@@ -1,0 +1,6 @@
+<html>
+<head><title><%= @hostname %></title></head>
+<body>
+Testing, Testing, Testing
+</body>
+</html>

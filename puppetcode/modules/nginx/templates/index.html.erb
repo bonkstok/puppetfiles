@@ -1,0 +1,18 @@
+<html>
+<head><title><%= @hostname %></title></head>
+<body>
+<h1>Welcome on Vhost<%= @title %></h1>
+<p>sll is <%= @ssl %></p>
+<p><%= "#{@ssh['dsa']['fingerprints']['sha1']} \n" %></p>d
+<p><%=  "You fetched this website from server with the ip address:#{@ipaddress}" %> </p>
+<p>Welcome to <%= @fqdn %> </p>
+<h1>This is an array.</h1>
+<% getal = 1 %>
+
+<% @puppet_array.each do |val| %>
+  <p><%= "Eerste item is #{getal} met waarde #{val}." %></p>
+  <% getal = getal + 1 %>
+<% end -%>
+</body>
+
+</html>

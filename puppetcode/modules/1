@@ -1,0 +1,16 @@
+class nginx{
+  package{'nginx':
+    ensure => installed,
+  }
+ 
+  file {'/var/www/':
+   ensure  => directory,
+   require => Package['nginx'],
+   } 
+   file{'index.html':
+   ensure  => file,
+   source  => 'puppet:///modules/nginx/index.html',
+   path    => '/var/www/',
+   require => File['/var/www/'],
+   }
+}
