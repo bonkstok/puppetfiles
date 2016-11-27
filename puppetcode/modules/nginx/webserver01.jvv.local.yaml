@@ -1,4 +1,6 @@
 nginx::vhost:
   {}
+#above is to make sure create_resources is not given an error. It returns an empty array.   
 nginx::vhost:
   johnny.com: {}
+#Returning johnny.com as $title and using all other default values. 
