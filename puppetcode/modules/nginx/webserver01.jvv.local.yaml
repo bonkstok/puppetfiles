@@ -1,0 +1,4 @@
+nginx::vhost:
+  {}
+nginx::vhost:
+  johnny.com: {}
