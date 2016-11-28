@@ -1,6 +1,6 @@
 class nginx
 (
-  $nginx_vhost_defaults = {},
+  $nginx_vhost = {},
   $nginx_vhost_defaults = {},
   $ssl                  = $nginx::params::ssl,
   $puppet_array         = $nginx::params::puppet_array,
@@ -74,7 +74,7 @@ class nginx
       ensure => absent,
   }
   }
- notify{"${$nginx_vhost}":} 
+ notify{"{$nginx_vhost}":} 
  create_resources('nginx::vhost', $nginx_vhost, $nginx_vhost_defaults)
 
 
