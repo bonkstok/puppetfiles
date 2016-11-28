@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 nginx::nginx_vhost:
   'test123.local':
@@ -19,3 +20,11 @@ nginx::nginx_vhost:
 
 
 motd::hiera_message: 'Just get the fuck out of here, -hiera ficl kist wprl'
+=======
+nginx::vhost:
+  {}
+#above is to make sure create_resources is not given an error. It returns an empty hash.   
+nginx::vhost:
+  johnny.com: {}
+#Returning johnny.com as $title and using all other default values. 
+>>>>>>> refs/remotes/origin/master
