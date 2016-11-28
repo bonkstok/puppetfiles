@@ -1,17 +1,18 @@
 class nginx
 (
-  # $package = nginx::params::package,
-  $ssl      = $nginx::params::ssl,
-  $puppet_array = $nginx::params::puppet_array,
-  $blockdir = $nginx::params::blockdir,
-  $confdir = $nginx::params::confdir,
-  $docroot = $nginx::params::docroot,
-  #$owner   = nginx::params::owner,
-  #$group   = nginx::params::group,
-  #$defmode = nginx::params::defmode,
-  $logdir  = $nginx::params::logdir,
-  $defaultVhost = $nginx::params::defaultVhost,
+  $nginx_vhost_defaults = {},
+  $nginx_vhost_defaults = {},
+  $ssl                  = $nginx::params::ssl,
+  $puppet_array         = $nginx::params::puppet_array,
+  $blockdir             = $nginx::params::blockdir,
+  $confdir              = $nginx::params::confdir,
+  $docroot              = $nginx::params::docroot,
+
+  $logdir               = $nginx::params::logdir,
+  $default_vhost        = $nginx::params::defaultVhost,
+
 )inherits nginx::params
+
 
 {
   File{
@@ -45,27 +46,37 @@ class nginx
     ensure => directory,
    require => Package['nginx'],
    } 
-  file{'/var/www/index.html':
-   ensure   => file,
-   content =>  template('nginx/index.html.erb'), 
-   #source  => 'puppet:///modules/nginx/index.html',
-   require  => File['/var/www'],
-   }
+  validate_bool($default_vhost)
+
   file {"${confdir}/nginx.conf":
     ensure  => file,
     source  => "puppet:///modules/nginx/${::osfamily}.conf",
     notify  => Service['nginx'],
     require => User["${user}"],
   }
-  if ($defaultVhost == true){
+
+  validate_bool($default_vhost)
+  if ($default_vhost != false){
       file {"${confdir}/conf.d/default.conf":
       ensure => file,
       source => 'puppet:///modules/nginx/default.conf',
       notify => Service['nginx'],
-    }}
+    }
+    file{'/var/www/index.html':
+      ensure   => file,
+      content =>  template('nginx/index.html.erb'), 
+      #source  => 'puppet:///modules/nginx/index.html',
+      require  => File['/var/www'],
+   }
+  }
     else{
-      file {"${confdir}/conf.d/default.conf":
+      file {["${confdir}/conf.d/default.conf", "${docroot}/index.html"]:
       ensure => absent,
   }
-  }}
+  }
+ notify{"${$nginx_vhost}":} 
+ create_resources('nginx::vhost', $nginx_vhost, $nginx_vhost_defaults)
+
+
+}
 

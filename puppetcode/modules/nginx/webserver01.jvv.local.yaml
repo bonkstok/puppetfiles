@@ -1,4 +1,21 @@
-nginx::vhost:
-  {}
-nginx::vhost:
-  johnny.com: {}
+---
+nginx::nginx_vhost:
+  'test123.local':
+    servername: 'test.local'   
+    puppet_array:
+      - hey
+      - daar    
+      - lol
+      - hiera fff
+    port : 80  
+
+nginx::nginx_vhost:
+  kpn.test:
+    puppet_array:
+      - ik
+      - test
+      - vandaag
+
+
+
+motd::hiera_message: 'Just get the fuck out of here, -hiera ficl kist wprl'
